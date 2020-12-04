@@ -1,6 +1,9 @@
 ;; --- Day 2: Password Philosophy ---
 ;; --- Part One ---
 
+;; Assignment from https://adventofcode.com/2020/day/1
+;; Assignment author: Eric Wastl
+
 ;; Your flight departs in a few days from the coastal airport; the
 ;; easiest way down to the coast from here is via toboggan.
 

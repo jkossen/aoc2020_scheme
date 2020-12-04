@@ -1,6 +1,9 @@
 ;; --- Day 2: Password Philosophy ---
 ;; --- Part Two ---
 
+;; Assignment from https://adventofcode.com/2020/day/2#part2
+;; Assignment author: Eric Wastl
+
 ;; While it appears you validated the passwords correctly, they don't
 ;; seem to be what the Official Toboggan Corporate Authentication
 ;; System is expecting.
