@@ -102,23 +102,24 @@
 
 (define cnt 0)
 
+(define (is-treee? line right)
+  (let ((linel (string-length line)))
+    (eq? (string-ref line (modulo right linel)) #\#)))
+
 (define (do-line port linenr right down steps-r steps-d)
   (define line (read-line port))
   (if (not (eof-object? line))
       (if (= linenr down)
-          (let ((linel (string-length line)))
-            (begin
-              ;;(format #t "(modulo ~d ~d)" right linel)
-              (if (eq? (string-ref line (modulo right linel)) #\#)
-                  (set! cnt (+ cnt 1)))
-              ;; print stats
-              ;; (format #t ":~d: ~s :: ~s :: right:~d down:~d cnt:~d\n"
-              ;;         linenr
-              ;;         line
-              ;;         (string-ref line (modulo right linel))
-              ;;         right down cnt)
+          (begin
+            (if (is-treee? line right)
+                (set! cnt (+ cnt 1)))
+            ;; print stats
+            ;; (format #t ":~d: ~s :: right:~d down:~d cnt:~d\n"
+            ;;         linenr
+            ;;         line
+            ;;         right down cnt)
 
-              (do-line port (+ linenr 1) (+ right steps-r) (+ down steps-d) steps-r steps-d)))
+            (do-line port (+ linenr 1) (+ right steps-r) (+ down steps-d) steps-r steps-d))
           (do-line port (+ linenr 1) right down steps-r steps-d))))
 
 (define (do-things steps-r steps-d)
