@@ -102,7 +102,7 @@
 
 (define cnt 0)
 
-(define (is-treee? line right)
+(define (is-tree? line right)
   (let ((linel (string-length line)))
     (eq? (string-ref line (modulo right linel)) #\#)))
 
@@ -111,7 +111,7 @@
   (if (not (eof-object? line))
       (if (= linenr down)
           (begin
-            (if (is-treee? line right)
+            (if (is-tree? line right)
                 (set! cnt (+ cnt 1)))
             ;; print stats
             ;; (format #t ":~d: ~s :: right:~d down:~d cnt:~d\n"
