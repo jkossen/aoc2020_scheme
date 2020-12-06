@@ -97,15 +97,6 @@
 ;; What do you get if you multiply together the number of trees
 ;; encountered on each of the listed slopes?
 
-;; correct answer: 3772314000
-
-
-;; print stats
-;; (format #t ":~d: ~s :: right:~d down:~d cnt:~d\n"
-;;         linenr
-;;         line
-;;         right down cnt)))))
-
 (use-modules (ice-9 format) (ice-9 regex) (ice-9 match) (ice-9 rdelim))
 
 (define (count-tree line right cnt)
@@ -128,13 +119,10 @@
   (define file (open-input-file "aoc3_input.txt"))
   (do-line 0 file 0 0 0 (car lst) (cadr lst)))
 
+;; 84 195 70 70 47
 (define outcomes (map do-paths '((1 1) (3 1) (5 1) (7 1) (1 2))))
+
+;; correct solution: 3772314000
 (define solution (apply * outcomes))
 
 (format #t "Solution: ~d\n" solution)
-
-;;(do-things 1 1) ;; 84
-;;(do-things 3 1) ;; 195
-;;(do-things 5 1) ;; 70
-;;(do-things 7 1) ;; 70
-;;(do-things 1 2) ;; 47
