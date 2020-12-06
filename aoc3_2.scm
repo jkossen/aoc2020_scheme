@@ -103,7 +103,7 @@
   (let ((linel (string-length line)))
     (if (eq? (string-ref line (modulo right linel)) #\#)
         (+ cnt 1)
-        (+ cnt 0))))
+        cnt)))
 
 (define (do-line cnt port linenr right down steps-r steps-d)
   (define line (read-line port))
@@ -113,7 +113,7 @@
           (do-line (count-tree line right cnt) port (+ linenr 1) (+ right steps-r) (+ down steps-d) steps-r steps-d))
       (begin
         (close-input-port port)
-        (+ cnt 0))))
+        cnt)))
 
 (define (do-paths lst)
   (define file (open-input-file "aoc3_input.txt"))
