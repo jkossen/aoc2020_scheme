@@ -99,7 +99,6 @@
 
 ;; correct answer: 3772314000
 
-(use-modules (ice-9 format) (ice-9 regex) (ice-9 match) (ice-9 rdelim))
 
 ;; print stats
 ;; (format #t ":~d: ~s :: right:~d down:~d cnt:~d\n"
@@ -107,30 +106,35 @@
 ;;         line
 ;;         right down cnt)))))
 
-(define (is-tree? line right)
+(use-modules (ice-9 format) (ice-9 regex) (ice-9 match) (ice-9 rdelim))
+
+(define (count-tree line right cnt)
   (let ((linel (string-length line)))
-    (eq? (string-ref line (modulo right linel)) #\#)))
+    (if (eq? (string-ref line (modulo right linel)) #\#)
+        (+ cnt 1)
+        (+ cnt 0))))
 
 (define (do-line cnt port linenr right down steps-r steps-d)
   (define line (read-line port))
   (if (not (eof-object? line))
       (if (not (= linenr down))
-          (begin
-            (do-line cnt port (+ linenr 1) right down steps-r steps-d))
-          (begin
-            (if (is-tree? line right)
-                (do-line (+ cnt 1) port (+ linenr 1) (+ right steps-r) (+ down steps-d) steps-r steps-d)
-                (do-line cnt port (+ linenr 1) (+ right steps-r) (+ down steps-d) steps-r steps-d))))
-      (+ cnt 0)))
+          (do-line cnt port (+ linenr 1) right down steps-r steps-d)
+          (do-line (count-tree line right cnt) port (+ linenr 1) (+ right steps-r) (+ down steps-d) steps-r steps-d))
+      (begin
+        (close-input-port port)
+        (+ cnt 0))))
 
-(define (do-things steps-r steps-d)
+(define (do-paths lst)
   (define file (open-input-file "aoc3_input.txt"))
-  (define cnt (do-line 0 file 0 0 0 steps-r steps-d))
-  (close-input-port file)
-  (format #t "\nSolution: ~d\n" cnt))
+  (do-line 0 file 0 0 0 (car lst) (cadr lst)))
 
-(do-things 1 1) ;; 84
-(do-things 3 1) ;; 195
-(do-things 5 1) ;; 70
-(do-things 7 1) ;; 70
-(do-things 1 2) ;; 47
+(define outcomes (map do-paths '((1 1) (3 1) (5 1) (7 1) (1 2))))
+(define solution (apply * outcomes))
+
+(format #t "Solution: ~d\n" solution)
+
+;;(do-things 1 1) ;; 84
+;;(do-things 3 1) ;; 195
+;;(do-things 5 1) ;; 70
+;;(do-things 7 1) ;; 70
+;;(do-things 1 2) ;; 47
