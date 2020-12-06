@@ -97,40 +97,42 @@
 ;; What do you get if you multiply together the number of trees
 ;; encountered on each of the listed slopes?
 
+;; correct answer: 3772314000
 
 (use-modules (ice-9 format) (ice-9 regex) (ice-9 match) (ice-9 rdelim))
 
-(define cnt 0)
+;;(define cnt 0)
+
+;; print stats
+;; (format #t ":~d: ~s :: right:~d down:~d cnt:~d\n"
+;;         linenr
+;;         line
+;;         right down cnt)))))
 
 (define (is-tree? line right)
   (let ((linel (string-length line)))
     (eq? (string-ref line (modulo right linel)) #\#)))
 
-(define (do-line port linenr right down steps-r steps-d)
+(define (do-line cnt port linenr right down steps-r steps-d)
   (define line (read-line port))
   (if (not (eof-object? line))
-      (if (= linenr down)
+      (if (not (= linenr down))
+          (begin
+            (do-line cnt port (+ linenr 1) right down steps-r steps-d))
           (begin
             (if (is-tree? line right)
-                (set! cnt (+ cnt 1)))
-            ;; print stats
-            ;; (format #t ":~d: ~s :: right:~d down:~d cnt:~d\n"
-            ;;         linenr
-            ;;         line
-            ;;         right down cnt)
-
-            (do-line port (+ linenr 1) (+ right steps-r) (+ down steps-d) steps-r steps-d))
-          (do-line port (+ linenr 1) right down steps-r steps-d))))
+                (do-line (+ cnt 1) port (+ linenr 1) (+ right steps-r) (+ down steps-d) steps-r steps-d)
+                (do-line cnt port (+ linenr 1) (+ right steps-r) (+ down steps-d) steps-r steps-d))))
+      (format #t "Solution: ~d\n" cnt)))
 
 (define (do-things steps-r steps-d)
   (define file (open-input-file "aoc3_input.txt"))
-  (do-line file 0 0 0 steps-r steps-d)
-  (close-input-port file)
-  (format #t "\nSolution: ~d\n" cnt)
-  (set! cnt 0))
+  (do-line 0 file 0 0 0 steps-r steps-d)
+  (close-input-port file))
+  ;;(format #t "\nSolution: ~d\n" cnt))
 
-(do-things 1 1)
-(do-things 3 1)
-(do-things 5 1)
-(do-things 7 1)
-(do-things 1 2)
+(do-things 1 1) ;; 84
+(do-things 3 1) ;; 195
+(do-things 5 1) ;; 70
+(do-things 7 1) ;; 70
+(do-things 1 2) ;; 47
