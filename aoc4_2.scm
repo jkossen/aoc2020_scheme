@@ -169,13 +169,9 @@
   (let ((nr (string->number (string-drop-right val 2)))
         (unit (string-take-right val 2)))
     (cond ((equal? unit "cm")
-           (if (and (>= nr 150) (<= nr 193))
-               #t
-               #f))
+           (and (>= nr 150) (<= nr 193)))
           ((equal? unit "in")
-           (if (and (>= nr 59) (<= nr 76))
-               #t
-               #f))
+           (and (>= nr 59) (<= nr 76)))
           (else #f))))
 
 ;;     hcl (Hair Color) - a # followed by exactly six characters 0-9 or a-f.
