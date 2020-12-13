@@ -101,6 +101,7 @@
               (let ((v (parse-line (string-tokenize line) 0)))
                 (do-line port (+ field-count v) valid-count)))))))
 
+;; Correct solution: 226
 (define file (open-input-file "aoc4_input.txt"))
 (format #t "Solution: ~a\n" (do-line file 0 0))
 (close-input-port file)
