@@ -155,12 +155,9 @@
 ;;     iyr (Issue Year) - four digits; at least 2010 and at most 2020.
 ;;     eyr (Expiration Year) - four digits; at least 2020 and at most 2030.
 (define (validate-yr val min max)
-  (if (and
-       (string-match "^[0-9]{4}$" val)
+  (and (string-match "^[0-9]{4}$" val)
        (>= (string->number val) min)
-       (<= (string->number val) max))
-      #t
-      #f))
+       (<= (string->number val) max)))
 
 ;;     hgt (Height) - a number followed by either cm or in:
 ;;         If cm, the number must be at least 150 and at most 193.
