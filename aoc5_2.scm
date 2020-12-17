@@ -107,15 +107,6 @@
          (res-col (parse-row coll 0 #\L #\R 0 7)))
     (+ (* res-row 8) res-col)))
 
-(define (get-highest-seat port highest)
-  (let ((line (read-line port)))
-    (if (eof-object? line)
-        highest
-        (let ((seat-id (get-seat-id line)))
-          (if (> seat-id highest)
-              (get-highest-seat port seat-id)
-              (get-highest-seat port highest))))))
-
 (define (get-pass-list port pass-list)
   (let ((line (read-line port)))
     (if (eof-object? line)
